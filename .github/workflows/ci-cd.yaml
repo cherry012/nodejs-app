@@ -24,15 +24,15 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t nodejs-app:latest .
-
-      - name: Set up AWS credentials
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+      - name: Set up AWS CLI
         run: |
-          aws --version
-          aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region us-east-1
+
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig --name node-cluster --region us-east-1
 
       - name: Push Docker image to Docker Hub
         run: |
@@ -48,4 +48,3 @@ jobs:
       - name: Notify deployment success
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment Successful!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
-          
