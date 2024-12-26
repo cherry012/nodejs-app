@@ -25,8 +25,9 @@ jobs:
         run: |
           docker build -t nodejs-app:latest .
 
-      - name: Debug Docker Username
-        run: echo "Docker Username: ${{ secrets.DOCKER_USERNAME }}"
+       - name: Debug Docker Username
+        run: |
+          echo "Docker Username: ${{ secrets.DOCKER_USERNAME }}"
 
       - name: Push Docker image to Docker Hub
         run: |
