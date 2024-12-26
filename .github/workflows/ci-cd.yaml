@@ -23,18 +23,14 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t nodejs-app .
-
-      - name: Debug Docker Username
-        run: |
-          echo "Docker Username: ${{ secrets.DOCKER_USERNAME }}"
+          docker build -t nodejs-app:latest .
 
       - name: Push Docker image to Docker Hub
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          docker tag nodejs-app:latest ${{ secrets.DOCKER_USERNAME }}/nodejs-app:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/nodejs-app:latest
-          
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker tag nodejs-app:latest "${{ secrets.DOCKER_USERNAME }}/nodejs-app:latest"
+          docker push "${{ secrets.DOCKER_USERNAME }}/nodejs-app:latest"
+
       - name: Set up Kubernetes context (EKS)
         uses: aws-actions/configure-kubeconfig@v2
         with:
@@ -45,8 +41,8 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f Deployment.yaml
-          kubectl apply -f service.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
 
       - name: Notify deployment success
         run: |
