@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "start": "node index.js",
+    "test": "npx mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "A simple Node.js app with CI/CD pipeline.",
   "dependencies": {
     "express": "^4.21.2"
   },
