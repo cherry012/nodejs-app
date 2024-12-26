@@ -48,3 +48,4 @@ jobs:
       - name: Notify deployment success
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment Successful!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          
