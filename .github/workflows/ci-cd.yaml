@@ -23,7 +23,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t nodejs-app .
+          docker build -t nodejs-app:latest .
 
       - name: Debug Docker Username
         run: |
